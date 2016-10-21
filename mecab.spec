@@ -12,9 +12,9 @@
 Name:		%{?scl_prefix}mecab
 Version:	%{mainver}
 %if %{?betaver:0}%{!?betaver:1}
-Release:	%{fedorarel}%{?dist}.5
+Release:	%{fedorarel}%{?dist}.6
 %else
-Release:	0.%{fedorarel}.%{betaver}%{?dist}.7
+Release:	0.%{fedorarel}.%{betaver}%{?dist}.8
 %endif
 Summary:	Yet Another Part-of-Speech and Morphological Analyzer
 
@@ -22,6 +22,9 @@ Group:		Applications/Text
 License:	BSD or LGPLv2+ or GPL+
 URL:		http://mecab.sourceforge.net/
 Source0:	http://mecab.googlecode.com/files/%{pkg_name}-%{version}.tar.gz
+
+%{?scl:BuildRequires:%scl_runtime}
+%{?scl:Requires:%scl_runtime}
 
 %description
 MeCab is a open source morphological analyzer which uses 
@@ -35,6 +38,7 @@ of MeCab.
 Summary:	Libraries and Header files for Mecab
 Group:		Development/Libraries
 Requires:	%{name}%{?isa} = %{version}-%{release}
+%{?scl:Requires:%scl_runtime}
 
 %description devel
 This is the development package that provides header files and libraries
@@ -118,6 +122,9 @@ cd ..
 %{_includedir}/%{pkg_name}.h
 
 %changelog
+* Fri Jul 15 2016 Honza Horak <hhorak@redhat.com> - 0.996-1.6
+- Require runtime package from the scl
+
 * Fri Jul 15 2016 Honza Horak <hhorak@redhat.com> - 0.996-1.5
 - Convert to SCL package
 
