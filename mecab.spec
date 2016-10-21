@@ -12,9 +12,9 @@
 Name:		%{?scl_prefix}mecab
 Version:	%{mainver}
 %if %{?betaver:0}%{!?betaver:1}
-Release:	%{fedorarel}%{?dist}.6
+Release:	%{fedorarel}%{?dist}.7
 %else
-Release:	0.%{fedorarel}.%{betaver}%{?dist}.8
+Release:	0.%{fedorarel}.%{betaver}%{?dist}.9
 %endif
 Summary:	Yet Another Part-of-Speech and Morphological Analyzer
 
@@ -63,6 +63,9 @@ find . -name \*.cpp -print0 | xargs -0 %{__chmod} 0644
 	-e 's|@prefix@/lib/mecab|%{_libdir}/mecab|' \
 	mecab-config.in mecabrc.in
 
+# allow to use some non-number major number in library soname
+sed -i -r 's|(major=\.)(\$func_arith_result)|\1$verstring_prefix\2|' ltmain.sh
+
 %build
 %{?scl:scl enable %{scl} - << \EOF}
 set -x
@@ -73,6 +76,7 @@ set -x
 	-e 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' \
 	libtool
 
+%{?scl_prefix:export verstring_prefix="%{scl_prefix}"}
 %{__make} %{?_smp_mflags}
 %{?scl:EOF}
 
@@ -109,7 +113,7 @@ cd ..
 %config(noreplace) %{_sysconfdir}/mecabrc
 %{_bindir}/%{pkg_name}
 %{_libexecdir}/%{pkg_name}/
-%{_libdir}/lib%{pkg_name}.so.2*
+%{_libdir}/lib%{pkg_name}.so.*
 # several dictionaries can install data files
 # into the following directory.
 %dir %{_libdir}/%{pkg_name}/
@@ -122,6 +126,9 @@ cd ..
 %{_includedir}/%{pkg_name}.h
 
 %changelog
+* Sun Jul 17 2016 Honza Horak <hhorak@redhat.com> - 0.996-1.7
+- Prefix library major number with SCL name in soname
+
 * Fri Jul 15 2016 Honza Horak <hhorak@redhat.com> - 0.996-1.6
 - Require runtime package from the scl
 
