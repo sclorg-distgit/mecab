@@ -12,9 +12,9 @@
 Name:		%{?scl_prefix}mecab
 Version:	%{mainver}
 %if %{?betaver:0}%{!?betaver:1}
-Release:	%{fedorarel}%{?dist}.7
+Release:	%{fedorarel}%{?dist}.8
 %else
-Release:	0.%{fedorarel}.%{betaver}%{?dist}.9
+Release:	0.%{fedorarel}.%{betaver}%{?dist}.10
 %endif
 Summary:	Yet Another Part-of-Speech and Morphological Analyzer
 
@@ -110,7 +110,7 @@ cd ..
 %doc doc/ example/
 %{_mandir}/man1/%{pkg_name}.1*
 
-%config(noreplace) %{_sysconfdir}/mecabrc
+%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/mecabrc
 %{_bindir}/%{pkg_name}
 %{_libexecdir}/%{pkg_name}/
 %{_libdir}/lib%{pkg_name}.so.*
@@ -126,6 +126,10 @@ cd ..
 %{_includedir}/%{pkg_name}.h
 
 %changelog
+* Tue Oct 25 2016 Jakub Dorňák <jdornak@redhat.com> - 0.996-1.8
+- skip %verify of /etc/opt/rh/rh-mysql57/mecabrc
+  Resolves: #1382315
+
 * Sun Jul 17 2016 Honza Horak <hhorak@redhat.com> - 0.996-1.7
 - Prefix library major number with SCL name in soname
 
