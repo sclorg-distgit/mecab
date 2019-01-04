@@ -12,9 +12,9 @@
 Name:		%{?scl_prefix}mecab
 Version:	%{mainver}
 %if %{?betaver:0}%{!?betaver:1}
-Release:	%{fedorarel}%{?dist}.9
+Release:	%{fedorarel}.bs1%{?dist}.9
 %else
-Release:	0.%{fedorarel}.%{betaver}%{?dist}.11
+Release:	0.%{fedorarel}.%{betaver}.bs1%{?dist}.11
 %endif
 Summary:	Yet Another Part-of-Speech and Morphological Analyzer
 
